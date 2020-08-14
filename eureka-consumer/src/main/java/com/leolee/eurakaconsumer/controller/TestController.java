@@ -1,5 +1,6 @@
 package com.leolee.eurakaconsumer.controller;
 
+import com.leolee.eurakaconsumer.feignInterface.TestClinet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -21,6 +22,9 @@ public class TestController {
     @Value("${hello}")
     private String hello;
 
+    @Autowired
+    private TestClinet testClinet;
+
     /**
      * 功能描述: <br> 远程消费eureka-client
      * 〈〉使用了ribbon的负载之后，该方法无法使用
@@ -30,7 +34,7 @@ public class TestController {
      * @Date: 2020/8/14 16:28
      */
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String getConfigHello() {
+    public String getrRestTemplateHello() {
         ServiceInstance serviceInstance = loadBalancerClient.choose("eureka-client");
         String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/test/hello";
         System.out.println(url);
@@ -46,8 +50,21 @@ public class TestController {
      * @Date: 2020/8/14 16:30
      */
     @RequestMapping(value = "/hello2", method = RequestMethod.GET)
-    public String getConfigHello2() {
+    public String getRibbonHello() {
         return restTemplate.getForObject("http://eureka-client/test/hello", String.class);
+    }
+
+    /**
+     * 功能描述: <br> feign远程调用
+     * 〈〉
+     * @Param: []
+     * @Return: java.lang.String
+     * @Author: LeoLee
+     * @Date: 2020/8/14 17:42
+     */
+    @RequestMapping(value = "/hello3", method = RequestMethod.GET)
+    public String getFeignHello() {
+        return testClinet.feignHello();
     }
 
 }
