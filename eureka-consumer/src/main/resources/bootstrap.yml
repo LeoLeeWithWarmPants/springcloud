@@ -6,6 +6,7 @@ spring:
     name: eureka-consumer
   profiles:
     active: dev
+
 logging:
   config: classpath:logback-spring.xml
 

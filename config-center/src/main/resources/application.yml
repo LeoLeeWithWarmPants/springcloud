@@ -12,6 +12,9 @@ spring:
           password: lyl512240816
       label: master
 
+logging:
+  config: classpath:logback-spring.xml
+
 eureka:
   client:
     serviceUrl:
