@@ -31,7 +31,12 @@
 
     <!-- 时间滚动输出 level为 INFO 日志 -->
     <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 当前Log文件名 -->
         <File>${LOG_PATH}${APP_NAME}-info.log</File>
+        <!-- ThresholdFilter:临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <encoder>
             <pattern>%d [%t] %5p %c:%L - %m%n</pattern>
         </encoder>
@@ -48,9 +53,16 @@
 
     <!-- 时间滚动输出 level为 ERROR 日志 -->
     <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 当前Log文件名 -->
         <File>${LOG_PATH}${APP_NAME}-error.log</File>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>error</level>
+        <!--LevelFilter: 级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。有以下子节点：
+            <level>:设置过滤级别
+            <onMatch>:用于配置符合过滤条件的操作
+            <onMismatch>:用于配置不符合过滤条件的操作-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
             <pattern>%d [%t] %5p %c:%L - %m%n</pattern>
