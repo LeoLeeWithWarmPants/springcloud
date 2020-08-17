@@ -1,6 +1,8 @@
 package com.leolee.eurakaconsumer.controller;
 
 import com.leolee.eurakaconsumer.feignInterface.TestClinet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -14,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/test")
 public class TestController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     LoadBalancerClient loadBalancerClient;
     @Autowired
@@ -24,6 +28,7 @@ public class TestController {
 
     @Autowired
     private TestClinet testClinet;
+
 
     /**
      * 功能描述: <br> 远程消费eureka-client
@@ -64,6 +69,7 @@ public class TestController {
      */
     @RequestMapping(value = "/hello3", method = RequestMethod.GET)
     public String getFeignHello() {
+        logger.info("日志数据拉");
         return testClinet.feignHello();
     }
 
