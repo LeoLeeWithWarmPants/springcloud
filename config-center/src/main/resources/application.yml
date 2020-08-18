@@ -11,6 +11,8 @@ spring:
           username: 512240816@qq.com
           password: lyl512240816
       label: master
+  profiles:
+    active: dev
 
 logging:
   config: classpath:logback-spring.xml
